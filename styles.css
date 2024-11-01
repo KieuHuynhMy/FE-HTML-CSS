@@ -48,7 +48,7 @@
 .service .service-group .service-row .service-card {
   /* height: 18em;
   width: 40%; */
-  height: 13em;
+  height: 16em;
   width: 87%;
   margin: 0 auto;
 }
@@ -95,7 +95,7 @@
   line-height: 16.41px;
   text-align: center;
   color: #5a5956;
-  margin: 15px 20px;
+  margin: 1em 3em 3rem;
 }
 
 .service .service-group .service-card .service-link {
