@@ -196,59 +196,138 @@ array.unshift(                      // add to the front of the array
    merge => return a new array = [0, 2, 2, 4, 4, 7, 9, 9]
    // O(n + m)
  */
-function mergeSort(num1, num2) {
-  /* C1 */
-  return [...num1, ...num2].sort();
+// function mergeSort(num1, num2) {
+//   /* C1 */
+//   return [...num1, ...num2].sort();
 
-  /* C2 */
-  // const mergeNum = [...num1, ...num2];
-  // const sortResult = mergeNum.sort();
-  // return sortResult;
-}
+//   /* C2 */
+//   // const mergeNum = [...num1, ...num2];
+//   // const sortResult = mergeNum.sort();
+//   // return sortResult;
+// }
 
-console.log(mergeSort([0, 4, 9], [2, 2, 4, 7, 9]));
+// console.log(mergeSort([0, 4, 9], [2, 2, 4, 7, 9]));
 
-const products2 = [
-  {
-    name: "Iphone 16",
-    colors: ["white", "ocean", "pink", "purple"],
-    quantity: 20,
-    price: 20000000,
+// const products2 = [
+//   {
+//     name: "Iphone 16",
+//     colors: ["white", "ocean", "pink", "purple"],
+//     quantity: 20,
+//     price: 20000000,
+//   },
+//   {
+//     name: "Iphone 16 promax",
+//     colors: ["white", "ocean", "yellow"],
+//     quantity: 40,
+//     price: 30000000,
+//   },
+//   {
+//     name: "Iphone 15",
+//     colors: ["purple"],
+//     quantity: 13,
+//     price: 10000000,
+//   },
+//   {
+//     name: "samsung zip 4",
+//     colors: ["gray", "green"],
+//     quantity: 2,
+//     price: 25000000,
+//   },
+// ];
+
+// function convert(productList) {
+//   const totalQuantity = productList.reduce(
+//     (prevVal, currVal) => prevVal + currVal.quantity,
+//     0
+//   );
+//   const products = productList.map((product) => ({
+//     name: product.name,
+//     price: product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+//   }));
+
+//   return {
+//     totalQuantity,
+//     products,
+//   };
+// }
+
+// console.log(convert(products2));
+
+// function convertPrice(priceNum) {
+//   let priceStr = Number(priceNum).toLocaleString();
+
+//   return priceStr;
+// }
+
+// console.log(convertPrice('30000000'));
+
+// function convertPrice(priceNum) {
+//   const number = Number(priceNum);
+//   let priceStr = '';
+
+//   const numStr = number.toString();
+
+//   for (let i = numStr.length - 1; i >= 0; i--) {
+//       priceStr = numStr[i] + priceStr;
+//       if ((numStr.length - i) % 3 === 0 && i !== 0) {
+//           priceStr = ',' + priceStr;
+//       }
+//   }
+
+//   return priceStr;
+// }
+
+// console.log(convertPrice('30000000'));
+
+// const person = {
+//   name: "John",
+//   birthDate: '1980-02-09',
+//   getAge: function() {
+//     const date = new Date(this.birthDate);
+//     const today = new Date();
+//     return today.getYear() - date.getYear();
+//   }
+// }
+
+// console.log(person.getAge());
+
+const shop = {
+  name: "Furniture",
+  activeTime: "8am-10pm",
+  categories: ["bedroom", "kitchen", "conference"],
+  // return boolean
+  isActive: function () {
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+
+    const [openingTime, closingTime] = this.activeTime.split("-");
+
+    const convertTo24Hour = function (time) {
+      let [hour, period] = time.split(/(am|pm)/);
+      hour = parseInt(hour, 10);
+      if (period === "pm" && hour < 12) hour += 12;
+      if (period === "am" && hour === 12) hour = 0;
+      return hour;
+    };
+
+    const openHour = convertTo24Hour(openingTime);
+    const closeHour = convertTo24Hour(closingTime);
+    return currentHour >= openHour && currentHour < closeHour;
   },
-  {
-    name: "Iphone 16 promax",
-    colors: ["white", "ocean", "yellow"],
-    quantity: 40,
-    price: 30000000,
-  },
-  {
-    name: "Iphone 15",
-    colors: ["purple"],
-    quantity: 13,
-    price: 10000000,
-  },
-  {
-    name: "samsung zip 4",
-    colors: ["gray", "green"],
-    quantity: 2,
-    price: 25000000,
-  },
-];
 
-function convert(productList) {
-  const totalQuantity = productList.reduce(
-    (prevVal, currVal) => prevVal + currVal.quantity,
-    0
-  );
-  const products = productList.map((product) => ({
-    name: product.name,
-    price: product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-  }));
+  sortAlphabet: function () {
+    return this.categories.sort();
+  },
 
-  return {
-    totalQuantity,
-    products,
-  };
-}
+  getCategoriesAndNew: function (category) {
+    // washroom
+    if (!this.categories.includes(category)) {
+      this.categories.push(category);
+    }
+    return this.sortAlphabet(); // a sorted array of categories
+  },
+};
 
-console.log(convert(products2));
+console.log(shop.isActive());
+console.log(shop.sortAlphabet());
+console.log(shop.getCategoriesAndNew("washroom"));
