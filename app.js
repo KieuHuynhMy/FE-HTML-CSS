@@ -291,43 +291,111 @@ array.unshift(                      // add to the front of the array
 
 // console.log(person.getAge());
 
-const shop = {
-  name: "Furniture",
-  activeTime: "8am-10pm",
-  categories: ["bedroom", "kitchen", "conference"],
-  // return boolean
-  isActive: function () {
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
+// const shop = {
+//   name: "Furniture",
+//   activeTime: "8am-10pm",
+//   categories: ["bedroom", "kitchen", "conference"],
+//   // return boolean
+//   isActive: function () {
+//     const currentTime = new Date();
+//     const currentHour = currentTime.getHours();
 
-    const [openingTime, closingTime] = this.activeTime.split("-");
+//     const [openingTime, closingTime] = this.activeTime.split("-");
 
-    const convertTo24Hour = function (time) {
-      let [hour, period] = time.split(/(am|pm)/);
-      hour = parseInt(hour, 10);
-      if (period === "pm" && hour < 12) hour += 12;
-      if (period === "am" && hour === 12) hour = 0;
-      return hour;
-    };
+//     const convertTo24Hour = function (time) {
+//       let [hour, period] = time.split(/(am|pm)/);
+//       hour = parseInt(hour, 10);
+//       if (period === "pm" && hour < 12) hour += 12;
+//       if (period === "am" && hour === 12) hour = 0;
+//       return hour;
+//     };
 
-    const openHour = convertTo24Hour(openingTime);
-    const closeHour = convertTo24Hour(closingTime);
-    return currentHour >= openHour && currentHour < closeHour;
-  },
+//     const openHour = convertTo24Hour(openingTime);
+//     const closeHour = convertTo24Hour(closingTime);
+//     return currentHour >= openHour && currentHour < closeHour;
+//   },
 
-  sortAlphabet: function () {
-    return this.categories.sort();
-  },
+//   sortAlphabet: function () {
+//     return this.categories.sort();
+//   },
 
-  getCategoriesAndNew: function (category) {
-    // washroom
-    if (!this.categories.includes(category)) {
-      this.categories.push(category);
-    }
-    return this.sortAlphabet(); // a sorted array of categories
-  },
+//   getCategoriesAndNew: function (category) {
+//     // washroom
+//     if (!this.categories.includes(category)) {
+//       this.categories.push(category);
+//     }
+//     return this.sortAlphabet(); // a sorted array of categories
+//   },
+// };
+
+// console.log(shop.isActive());
+// console.log(shop.sortAlphabet());
+// console.log(shop.getCategoriesAndNew("washroom"));
+
+// class Shop {
+//   constructor(name, phone) {
+//     this.name = name;
+//     this.phone = phone;
+//     this.isPreferred = false;
+//     this.created = new Date();
+//   }
+
+//   setPrefer(value) {
+//     this.isPreferred = value;
+//   }
+
+//   getRegion() {
+//     const countryCodes = {
+//       '+84': 'VN', // Vietnam
+//       '+65': 'SG', // Singapore
+//       '+60': 'MY', // Malaysia
+//     };
+
+//     // Extract the country code from the phone number
+//     const code = this.phone.split(' ')[0]; // Get the first part of the phone number
+
+//     return countryCodes[code] || 'Unknown'; // Return the region or 'Unknown' if not found
+//   }
+// }
+
+// // Example usage:
+// const furniture = new Shop('Tanpo', '+84 784 01213');
+// const typo = new Shop('Typo', '+65 9684 3455');
+// const maybank = new Shop('Maybank', '+60 234234 3241234');
+
+// console.log(furniture.getRegion()); // VN
+// console.log(typo.getRegion());      // SG
+// console.log(maybank.getRegion());   // MY
+
+/* Homework */
+function SortedArray(nums) {
+  this.numbers = nums; // [1, 3, 5]
+}
+
+SortedArray.prototype.get = function (num) {
+  // return index in the array
+  const index = this.numbers.indexOf(num);
+  return index;
 };
 
-console.log(shop.isActive());
-console.log(shop.sortAlphabet());
-console.log(shop.getCategoriesAndNew("washroom"));
+SortedArray.prototype.set = function (num) {
+  // [1, 2, 3, 3, 5, 6]
+  // add the number in order
+  this.numbers.push(num);
+  this.numbers.sort((a, b) => a - b);
+};
+
+SortedArray.prototype.remove = function (num) {
+  // remove the input number in the array
+  const index = this.numbers.indexOf(num);
+  if (index !== -1) {
+    this.numbers.splice(index, 1);
+  }
+};
+
+const sortedArray = new SortedArray([1, 3, 5]);
+console.log(sortedArray.get(3)); // Output: 1
+sortedArray.set(2);
+console.log(sortedArray.numbers); // Output: [1, 2, 3, 5]
+sortedArray.remove(3);
+console.log(sortedArray.numbers); // Output: [1, 2, 5]
