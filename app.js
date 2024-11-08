@@ -368,34 +368,97 @@ array.unshift(                      // add to the front of the array
 // console.log(maybank.getRegion());   // MY
 
 /* Homework */
-function SortedArray(nums) {
-  this.numbers = nums; // [1, 3, 5]
+// function SortedArray(nums) {
+//   this.numbers = nums; // [1, 3, 5]
+// }
+
+// SortedArray.prototype.get = function (num) {
+//   // return index in the array
+//   const index = this.numbers.indexOf(num);
+//   return index;
+// };
+
+// SortedArray.prototype.set = function (num) {
+//   // [1, 2, 3, 3, 5, 6]
+//   // add the number in order
+//   this.numbers.push(num);
+//   this.numbers.sort((a, b) => a - b);
+// };
+
+// SortedArray.prototype.remove = function (num) {
+//   // remove the input number in the array
+//   const index = this.numbers.indexOf(num);
+//   if (index !== -1) {
+//     this.numbers.splice(index, 1);
+//   }
+// };
+
+// const sortedArray = new SortedArray([1, 3, 5]);
+// console.log(sortedArray.get(3)); // Output: 1
+// sortedArray.set(2);
+// console.log(sortedArray.numbers); // Output: [1, 2, 3, 5]
+// sortedArray.remove(3);
+// console.log(sortedArray.numbers); // Output: [1, 2, 5]
+
+// async function fetchPosts(postId) {
+//   const res = await fetch(
+//     `https://jsonplaceholder.typicode.com/posts/${postId}`
+//   );
+//   if (res.status !== 200) {
+//     throw new Error("Error fetching post");
+//   }
+
+//   const post = await res.json();
+//   return post;
+// }
+
+// fetchPosts(3)
+//   .then((res) => console.log(res))
+//   .catch((err) => console.error(err));
+
+// async function fetchUsers() {
+//   const res = await fetch("https://jsonplaceholder.typicode.com/users");
+//   if (res.status !== 200) {
+//     throw new Error(`Error fetching data`);
+//   }
+//   return res.json();
+// }
+
+// async function fetchPosts() {
+//   const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+//   if (res.status !== 200) {
+//     throw new Error(`Error fetching data`);
+//   }
+//   return res.json();
+// }
+// fetchUsers().then((res) => console.log(res));
+// fetchPosts().then((res) => console.log(res));
+
+async function fetchData() {
+  try {
+    const users = await fetch("https://jsonplaceholder.typicode.com/users");
+    const posts = await fetch("https://jsonplaceholder.typicode.com/posts");
+    if (users.status !== 200 || posts.status !== 200) {
+      throw new Error(`HTTP error! Status: ${users.status} ${posts.status}`);
+    }
+    const usersData = await users.json();
+    const postsData = await posts.json();
+
+    const combinedData = postsData.map((post) => {
+      const author = usersData.find((user) => user.id === post.userId);
+      return {
+        ...post,
+        author: author ? author.name : "Unknown",
+      };
+    });
+
+    return combinedData;
+  } catch (err) {
+    console.log("Error fetching data", err);
+    return null;
+  }
 }
 
-SortedArray.prototype.get = function (num) {
-  // return index in the array
-  const index = this.numbers.indexOf(num);
-  return index;
-};
-
-SortedArray.prototype.set = function (num) {
-  // [1, 2, 3, 3, 5, 6]
-  // add the number in order
-  this.numbers.push(num);
-  this.numbers.sort((a, b) => a - b);
-};
-
-SortedArray.prototype.remove = function (num) {
-  // remove the input number in the array
-  const index = this.numbers.indexOf(num);
-  if (index !== -1) {
-    this.numbers.splice(index, 1);
-  }
-};
-
-const sortedArray = new SortedArray([1, 3, 5]);
-console.log(sortedArray.get(3)); // Output: 1
-sortedArray.set(2);
-console.log(sortedArray.numbers); // Output: [1, 2, 3, 5]
-sortedArray.remove(3);
-console.log(sortedArray.numbers); // Output: [1, 2, 5]
+fetchData()
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
