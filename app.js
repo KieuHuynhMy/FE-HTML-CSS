@@ -434,31 +434,72 @@ array.unshift(                      // add to the front of the array
 // fetchUsers().then((res) => console.log(res));
 // fetchPosts().then((res) => console.log(res));
 
-async function fetchData() {
-  try {
-    const users = await fetch("https://jsonplaceholder.typicode.com/users");
-    const posts = await fetch("https://jsonplaceholder.typicode.com/posts");
-    if (users.status !== 200 || posts.status !== 200) {
-      throw new Error(`HTTP error! Status: ${users.status} ${posts.status}`);
+// async function fetchData() {
+//   try {
+//     const users = await fetch("https://jsonplaceholder.typicode.com/users");
+//     const posts = await fetch("https://jsonplaceholder.typicode.com/posts");
+//     if (users.status !== 200 || posts.status !== 200) {
+//       throw new Error(`HTTP error! Status: ${users.status} ${posts.status}`);
+//     }
+//     const usersData = await users.json();
+//     const postsData = await posts.json();
+
+//     const userLookup = {};
+//     usersData.forEach((user) => {
+//       userLookup[user.id] = user.name;
+//     });
+
+//     const combinedData = postsData.map((post) => ({
+//       ...post,
+//       author: userLookup[post.userId] || "Unknown",
+//     }));
+
+//     return combinedData;
+//   } catch (err) {
+//     console.log("Error fetching data", err);
+//     return null;
+//   }
+// }
+
+// fetchData()
+//   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));
+
+/**
+ * nums1 = [2, 5, 7, 0, 0, 0, 0], n=3, nums2 = [1, 6, 8, 9] m=4
+ * O(m+n)
+ * function mergeSortedArray(nums1, n, nums2, m) {
+ *
+ * }
+ * modify on the nums 1 to become a sorted array: nums1 = [1, 2, 5, 6, 7, 8, 9]
+ */
+
+function mergeSortedArray(nums1, n, nums2, m) {
+  let i = n - 1;
+  let j = m - 1;
+  let k = n + m - 1;
+
+  while (i >= 0 && j >= 0) {
+    if (nums1[i] > nums2[j]) {
+      nums1[k] = nums1[i];
+      i--;
+    } else {
+      nums1[k] = nums2[j];
+      j--;
     }
-    const usersData = await users.json();
-    const postsData = await posts.json();
+    k--;
+  }
 
-    const combinedData = postsData.map((post) => {
-      const author = usersData.find((user) => user.id === post.userId);
-      return {
-        ...post,
-        author: author ? author.name : "Unknown",
-      };
-    });
-
-    return combinedData;
-  } catch (err) {
-    console.log("Error fetching data", err);
-    return null;
+  while (j >= 0) {
+    nums1[k] = nums2[j];
+    j--;
+    k--;
   }
 }
 
-fetchData()
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+let nums1 = [2, 5, 7, 0, 0, 0, 0];
+let n = 3;
+let nums2 = [1, 6, 8, 9];
+let m = 4;
+mergeSortedArray(nums1, n, nums2, m);
+console.log(nums1); // Output: [1, 2, 5, 6, 7, 8, 9]
